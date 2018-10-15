@@ -2,7 +2,6 @@ package com.bolsadeideas.springboot.app.models.service;
 
 import java.util.List;
 
-import org.hibernate.loader.custom.Return;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -70,8 +69,27 @@ public class ClienteServiceImpl implements IClienteService {
 	}
 
 	@Override
+	@Transactional(readOnly=true)
 	public Producto findProductoById(Long id) {
 		return productoDao.findOne(id);
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public Factura findFacturaById(Long id) {
+		return facturaDao.findOne(id);
+	}
+
+	@Override
+	@Transactional
+	public void deleteFactura(Long id) {
+		facturaDao.delete(id);
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public Factura fetchFacturaByIdWithClienteWithItemFacturaWithProducto(Long id) {
+		return facturaDao.fetchByIdWithClienteWithItemFacturaWithProducto(id);
 	}
 
 }

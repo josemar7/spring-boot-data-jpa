@@ -37,6 +37,22 @@ public class FacturaController {
 	@Autowired
 	private IClienteService clienteService;
 	
+	@GetMapping("/ver/{id}")
+	public String ver(@PathVariable(value="id") Long id,
+			Model model,
+			RedirectAttributes flash) {
+//		Factura factura = clienteService.findFacturaById(id);
+		log.info("aqui!!!");
+		Factura factura = clienteService.fetchFacturaByIdWithClienteWithItemFacturaWithProducto(id);
+		if (factura == null) {
+			flash.addAttribute("error", "La factura no existe en la BBDD");
+			return "redirect:/listar";
+		}
+		model.addAttribute("factura", factura);
+		model.addAttribute("titulo", "Faactura: ".concat(factura.getDescripcion()));
+		return "factura/ver";
+	}
+	
 	@GetMapping("/form/{clienteId}")
 	public String crear(@PathVariable(value="clienteId") Long clienteId, Map<String, Object> model, 
 			RedirectAttributes flash) {
@@ -86,6 +102,20 @@ public class FacturaController {
 		status.setComplete();
 		flash.addFlashAttribute("success", "Factura creada con éxito");
 		return "redirect:/ver/" + factura.getCliente().getId();
+	}
+	
+	
+	@GetMapping("/eliminar/{id}")
+	public String eliminar(@PathVariable(value="id") Long id,
+			RedirectAttributes flash) {
+		Factura factura = clienteService.findFacturaById(id);
+		if (factura != null) {
+			clienteService.deleteFactura(id);
+			flash.addFlashAttribute("success", "Factura eliminada con éxito");
+			return "redirect:/ver/" + factura.getCliente().getId();
+		}
+		flash.addFlashAttribute("error", "La factura no existe en la BBDD");
+		return "redirect:/listar";
 	}
 	
 
