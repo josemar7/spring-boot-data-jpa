@@ -42,7 +42,6 @@ public class FacturaController {
 			Model model,
 			RedirectAttributes flash) {
 //		Factura factura = clienteService.findFacturaById(id);
-		log.info("aqui!!!");
 		Factura factura = clienteService.fetchFacturaByIdWithClienteWithItemFacturaWithProducto(id);
 		if (factura == null) {
 			flash.addAttribute("error", "La factura no existe en la BBDD");
