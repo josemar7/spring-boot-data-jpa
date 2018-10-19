@@ -1,6 +1,5 @@
 package com.bolsadeideas.springboot.app.view.csv;
 
-import java.io.FileWriter;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +14,7 @@ import org.supercsv.prefs.CsvPreference;
 
 import com.bolsadeideas.springboot.app.models.entity.Cliente;
 
-@Component("listar")
+@Component("listar.csv")
 public class ClienteCsvView extends AbstractView {
 	
 	
